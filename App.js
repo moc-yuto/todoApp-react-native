@@ -4,7 +4,7 @@
  * @flow
  */
 
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
   Platform,
   StyleSheet,
@@ -15,46 +15,7 @@ import {
   Image
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
-
-class Greeting extends Component {
-  render() {
-    return (
-      <Text>Hello {this.props.name}!</Text>
-    );
-  }
-}
-
-class Demo extends Component {
-  render() {
-    let pic = {
-      uri: 'https://nekogazou.com/wp-content/uploads/2015/10/4ab5442a6d977922bcbe8850ff4b40bc.jpg'
-    };
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit App.js
-          ゆうとだよーん！！
-        </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
-        <Greeting name='Yuto' />
-        <Image source={pic} style={{width: 193, height: 110}}/>
-      </View>
-    );
-  }
-}
-
-class Todo extends Component {
+class TodoView extends Component {
   render(){
     return (
       <View>
@@ -67,15 +28,32 @@ class Todo extends Component {
   }
 }
 
-class TodoList extends Component {
+class Todo extends Component {
   _onPressButton() {
-    Alert.alert('終わった！！')
+    Alert.alert('終わったわい！！')
+  }
+  propTypes = {
+    todo: PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      text: PropTypes.string.isRequired
+    })
   }
   render() {
     return (
+      <Text style={styles.item} onPress={this._onPressButton}>
+        {this.props.todo.id}: {this.props.todo.text}
+      </Text>
+    )
+  }
+}
+
+class TodoList extends Component {
+
+  render() {
+    return (
       <FlatList
-      data = {[{"key":"皿洗い"},{"key":"ゴミ捨て"}]}
-      renderItem={({item}) => <Text style={styles.item} onPress={this._onPressButton}>{item.key}</Text>}
+      data = {[{"id":1,"text":"皿洗い"},{"id":2,"text":"ゴミ捨て"}]}
+      renderItem={({item}) => <Todo style={styles.item} todo={item} />}
       />
     )
   }
@@ -84,7 +62,7 @@ class TodoList extends Component {
 export default class App extends Component {
   render() {
     return (
-      <Todo />
+      <TodoView />
     );
   }
 }
@@ -92,8 +70,7 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   title: {
     fontSize: 40,
-    textAlign: 'center',
-
+    textAlign: 'center'
   },
   container: {
     flex: 1,
@@ -106,9 +83,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     margin: 10,
   },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  item: {
+    padding: 10,
+    fontSize: 18,
+    height: 44,
   },
 });
