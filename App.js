@@ -32,12 +32,6 @@ class Todo extends Component {
   _onPressButton() {
     Alert.alert('終わったわい！！')
   }
-  propTypes = {
-    todo: PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      text: PropTypes.string.isRequired
-    })
-  }
   render() {
     return (
       <Text style={styles.item} onPress={this._onPressButton}>
@@ -46,6 +40,11 @@ class Todo extends Component {
     )
   }
 }
+// Todo.propTypes = {
+//   todo: PropTypes.shape({
+//     text: PropTypes.string.isRequired    
+//   })
+// }
 
 class TodoList extends Component {
 
